@@ -4,14 +4,30 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FlyWheel extends SubsystemBase {
-  /** Creates a new FlyWheel. */
-  public FlyWheel() {}
+    private CANSparkMax motor = new CANSparkMax(8, MotorType.kBrushless);
+    private double targetSpeed = 0;
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    public FlyWheel() {
+      motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    }
+
+    public void setIntakeSpeed(double speed) {
+      targetSpeed = speed;
+    }
+
+    public double getIntakeSpeed(){
+      return targetSpeed;
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+      motor.set(targetSpeed);
+    }
 }
