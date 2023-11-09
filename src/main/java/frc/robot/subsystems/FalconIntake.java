@@ -11,15 +11,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class FalconIntake extends SubsystemBase {
   private TalonFX falconIntake = new TalonFX(0);
   private double targetSpeed = 0;
+
   /** Creates a new FalconIntake. */
   public FalconIntake() {
   }
 
-  public void setIntakeSpeed(double speed){
+  public void setIntakeSpeed(double speed) {
     targetSpeed = speed;
   }
 
-  public double getIntakeSpeed(){
+  public double getIntakeSpeed() {
     return targetSpeed;
   }
 
