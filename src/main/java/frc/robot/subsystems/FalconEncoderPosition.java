@@ -6,20 +6,20 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class FalconIntakeEncoder extends SubsystemBase {
+public class FalconEncoderPosition extends SubsystemBase {
   private TalonFX falconIntake = new TalonFX(0);
     /* Be able to switch which control request to use based on a button press */
   /* Start at velocity 0, enable FOC, no feed forward, use slot 0 */
-  private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, 0, false, 0, 0, false);
-  private double targetSpeed = 0;
+  private final PositionVoltage m_positionVoltage = new PositionVoltage(0, 0, false, 0, 0, false);
+  private double targetPosition = 0;
 
   /** Creates a new FalconIntakeEncoder. */
-  public FalconIntakeEncoder() {
+  public FalconEncoderPosition() {
     TalonFXConfiguration configs = new TalonFXConfiguration();
 
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
@@ -42,21 +42,23 @@ public class FalconIntakeEncoder extends SubsystemBase {
     }
   }
 
-  public void setIntakeSpeed(double speed) {
-    targetSpeed = speed;
+  public void setPosition(double speed) {
+    targetPosition = speed;
   }
 
-  public double getTargetIntakeSpeed() {
-    return targetSpeed;
+  public double getTargetPosition() {
+    return targetPosition;
   }
 
-  public double getIntakeSpeed() {
-    return falconIntake.getVelocity().getValueAsDouble();
+  public double getPostion() {
+    return falconIntake.getPosition().getValueAsDouble();
   }
 
   @Override
   public void periodic() {
-    m_voltageVelocity.withVelocity(targetSpeed);
+    m_positionVoltage.withPosition(targetPosition);
     // This method will be called once per scheduler run
   }
 }
+
+

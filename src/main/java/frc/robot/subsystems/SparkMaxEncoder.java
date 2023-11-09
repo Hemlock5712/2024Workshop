@@ -30,7 +30,7 @@ public class SparkMaxEncoder extends SubsystemBase {
     targetSpeed = speed;
   }
 
-  public double getFlyWheelSpeed(){
+  public double getTargetFlyWheelSpeed(){
     return targetSpeed;
   }
 
