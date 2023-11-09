@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FalconIntake;
+import frc.robot.util.TunableNumber;
 
 public class Intake extends Command {
   FalconIntake m_falconIntake;
@@ -16,6 +17,12 @@ public class Intake extends Command {
     m_speed = speed;
     addRequirements(m_falconIntake);
     // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  public Intake(FalconIntake falconIntake, TunableNumber speed){
+    m_falconIntake = falconIntake;
+    m_speed = speed.get();
+    addRequirements(m_falconIntake);
   }
 
   // Called when the command is initially scheduled.
