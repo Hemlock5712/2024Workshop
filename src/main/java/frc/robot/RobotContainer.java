@@ -20,7 +20,6 @@ public class RobotContainer {
 
   private void configureBindings() {
     controller.a().whileTrue(new SpinMotorFast(flyWheel));
-    controller.b().whileTrue(Commands.run(() -> flyWheel.setIntakeSpeed(1), flyWheel));
   }
 
   public Command getAutonomousCommand() {
