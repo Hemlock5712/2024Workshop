@@ -7,10 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlyWheel;
 
-public class SpinMotorFast extends Command {
+public class SpinSparkMaxFast extends Command {
   FlyWheel m_flyWheel;
   /** Creates a new SpinMotor. */
-  public SpinMotorFast(FlyWheel flyWheel) {
+  public SpinSparkMaxFast(FlyWheel flyWheel) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_flyWheel = flyWheel;
     addRequirements(m_flyWheel);

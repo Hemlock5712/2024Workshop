@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Intake;
 import frc.robot.commands.MultiSub;
-import frc.robot.commands.SpinMotorFast;
+import frc.robot.commands.SpinSparkMaxFast;
 import frc.robot.subsystems.FalconIntake;
 import frc.robot.subsystems.FlyWheel;
 import frc.robot.util.TunableNumber;
@@ -26,7 +26,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    controller.a().whileTrue(new SpinMotorFast(flyWheel));
+    controller.a().whileTrue(new SpinSparkMaxFast(flyWheel));
     controller.b().whileTrue(new Intake(intake, intakeSpeed));
     controller.x().whileTrue(new MultiSub(intake, flyWheel, intakeSpeed, flyWheelSpeed));
   }
