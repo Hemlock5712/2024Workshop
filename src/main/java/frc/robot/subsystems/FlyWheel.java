@@ -17,11 +17,11 @@ public class FlyWheel extends SubsystemBase {
       motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     }
 
-    public void setIntakeSpeed(double speed) {
+    public void setFlyWheelSpeed(double speed) {
       targetSpeed = speed;
     }
 
-    public double getIntakeSpeed(){
+    public double getFlyWheelSpeed(){
       return targetSpeed;
     }
 

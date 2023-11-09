@@ -24,13 +24,13 @@ public class SpinMotorSlow extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_flyWheel.setIntakeSpeed(0.1);
+    m_flyWheel.setFlyWheelSpeed(0.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_flyWheel.setIntakeSpeed(0);
+    m_flyWheel.setFlyWheelSpeed(0);
   }
 
   // Returns true when the command should end.
