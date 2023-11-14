@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class FlyWheelVelocityPID extends SubsystemBase {
   private CANSparkMax motor = new CANSparkMax(8, MotorType.kBrushless);
@@ -41,20 +42,22 @@ public class FlyWheelVelocityPID extends SubsystemBase {
   }
 
   private void setPID() {
-    double p = SmartDashboard.getNumber("P Gain", 0);
-    double i = SmartDashboard.getNumber("I Gain", 0);
-    double d = SmartDashboard.getNumber("D Gain", 0);
-    if (p != kP) {
-      kP = p;
-      pidController.setP(kP);
-    }
-    if (i != kI) {
-      kI = i;
-      pidController.setP(kI);
-    }
-    if (d != kI) {
-      kD = d;
-      pidController.setP(kD);
+    if (Constants.tuningMode) {
+      double p = SmartDashboard.getNumber("P Gain", 0);
+      double i = SmartDashboard.getNumber("I Gain", 0);
+      double d = SmartDashboard.getNumber("D Gain", 0);
+      if (p != kP) {
+        kP = p;
+        pidController.setP(kP);
+      }
+      if (i != kI) {
+        kI = i;
+        pidController.setI(kI);
+      }
+      if (d != kI) {
+        kD = d;
+        pidController.setD(kD);
+      }
     }
   }
 
