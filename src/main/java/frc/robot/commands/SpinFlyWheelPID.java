@@ -10,13 +10,12 @@ import frc.robot.util.TunableNumber;
 
 public class SpinFlyWheelPID extends Command {
   FlyWheelVelocityPID m_sparkMaxEncoder;
-  double m_targetSpeed = 0;
+  TunableNumber m_targetSpeed = new TunableNumber("Fly Wheel Target Speed", 0);
 
   /** Creates a new SpinSparkMaxEncoder. */
-  public SpinFlyWheelPID(FlyWheelVelocityPID sparkMaxEncoder, TunableNumber targetSpeed) {
+  public SpinFlyWheelPID(FlyWheelVelocityPID sparkMaxEncoder) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_sparkMaxEncoder = sparkMaxEncoder;
-    m_targetSpeed = targetSpeed.get();
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +26,7 @@ public class SpinFlyWheelPID extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_sparkMaxEncoder.setTargetSpeed(m_targetSpeed);
+    m_sparkMaxEncoder.setTargetSpeed(m_targetSpeed.get());
   }
 
   // Called once the command ends or is interrupted.

@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.FlyWheel;
-import frc.robot.util.TunableNumber;
 
 public class MultipleSubsystem extends Command {
   Intake m_falconIntake;
@@ -16,12 +15,12 @@ public class MultipleSubsystem extends Command {
   double m_flyWheelSpeed;
 
   /** Creates a new MultiSub. */
-  public MultipleSubsystem(Intake falconIntake, FlyWheel flyWheel, TunableNumber falconIntakeSpeed,
-      TunableNumber flyWheelSpeed) {
+  public MultipleSubsystem(Intake falconIntake, FlyWheel flyWheel, double falconIntakeSpeed,
+      double flyWheelSpeed) {
     m_falconIntake = falconIntake;
     m_flyWheel = flyWheel;
-    m_falconIntakeSpeed = falconIntakeSpeed.get();
-    m_flyWheelSpeed = flyWheelSpeed.get();
+    m_falconIntakeSpeed = falconIntakeSpeed;
+    m_flyWheelSpeed = flyWheelSpeed;
     addRequirements(m_falconIntake, m_flyWheel);
     // Use addRequirements() here to declare subsystem dependencies.
   }

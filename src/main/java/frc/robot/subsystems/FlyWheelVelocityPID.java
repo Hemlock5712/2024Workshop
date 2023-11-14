@@ -9,28 +9,25 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.util.TunableNumber;
 
 public class FlyWheelVelocityPID extends SubsystemBase {
   private CANSparkMax motor = new CANSparkMax(8, MotorType.kBrushless);
   SparkMaxPIDController pidController;
   private double targetSpeed = 0;
 
-  private double kP = 0.0;
-  private double kI = 0.0;
-  private double kD = 0.0;
+  TunableNumber kP = new TunableNumber("FlyWheel P Gain", 0.0);
+  TunableNumber kI = new TunableNumber("FlyWheel I Gain", 0.0);
+  TunableNumber kD = new TunableNumber("FlyWheel D Gain", 0.0);
 
   /** Creates a new SparkMaxClosedLoop. */
   public FlyWheelVelocityPID() {
     pidController = motor.getPIDController();
-    pidController.setP(kP, 0);
-    pidController.setI(kI, 0);
-    pidController.setD(kD, 0);
-    SmartDashboard.putNumber("P Gain", kP);
-    SmartDashboard.putNumber("I Gain", kI);
-    SmartDashboard.putNumber("D Gain", kD);
+    pidController.setP(kP.get(), 0);
+    pidController.setI(kI.get(), 0);
+    pidController.setD(kD.get(), 0);
   }
 
   public double getTargetSpeed() {
@@ -43,20 +40,14 @@ public class FlyWheelVelocityPID extends SubsystemBase {
 
   private void setPID() {
     if (Constants.tuningMode) {
-      double p = SmartDashboard.getNumber("P Gain", 0);
-      double i = SmartDashboard.getNumber("I Gain", 0);
-      double d = SmartDashboard.getNumber("D Gain", 0);
-      if (p != kP) {
-        kP = p;
-        pidController.setP(kP);
+      if (kP.hasChanged()) {
+        pidController.setP(kP.get());
       }
-      if (i != kI) {
-        kI = i;
-        pidController.setI(kI);
+      if (kI.hasChanged()) {
+        pidController.setI(kI.get());
       }
-      if (d != kI) {
-        kD = d;
-        pidController.setD(kD);
+      if (kI.hasChanged()) {
+        pidController.setD(kD.get());
       }
     }
   }
