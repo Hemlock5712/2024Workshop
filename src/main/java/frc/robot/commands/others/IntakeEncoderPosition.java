@@ -2,19 +2,29 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.others;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SparkMaxFlyWheel;
+import frc.robot.subsystems.others.FalconPosition;
+import frc.robot.util.TunableNumber;
 
-public class SpinSparkMaxFast extends Command {
-  SparkMaxFlyWheel m_flyWheel;
+public class IntakeEncoderPosition extends Command {
+  /** Creates a new IntakeEncoderPosition. */
+  FalconPosition m_falconIntake;
+  double m_position;
 
-  /** Creates a new SpinMotor. */
-  public SpinSparkMaxFast(SparkMaxFlyWheel flyWheel) {
+  /** Creates a new Intake. */
+  public IntakeEncoderPosition(FalconPosition falconIntake, double position) {
+    m_falconIntake = falconIntake;
+    m_position = position;
+    addRequirements(m_falconIntake);
     // Use addRequirements() here to declare subsystem dependencies.
-    m_flyWheel = flyWheel;
-    addRequirements(m_flyWheel);
+  }
+
+  public IntakeEncoderPosition(FalconPosition falconIntake, TunableNumber speed) {
+    m_falconIntake = falconIntake;
+    m_position = speed.get();
+    addRequirements(m_falconIntake);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +35,12 @@ public class SpinSparkMaxFast extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_flyWheel.setFlyWheelSpeed(0.5);
+    m_falconIntake.setPosition(m_position);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_flyWheel.setFlyWheelSpeed(0);
   }
 
   // Returns true when the command should end.

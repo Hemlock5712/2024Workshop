@@ -6,18 +6,19 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.Intake;
-import frc.robot.commands.MultiSub;
-import frc.robot.commands.SpinSparkMaxFast;
-import frc.robot.subsystems.FalconIntake;
-import frc.robot.subsystems.SparkMaxFlyWheel;
+import frc.robot.commands.SpinIntake;
+import frc.robot.commands.MultipleSubsystem;
+import frc.robot.commands.SpinFlyWheelFast;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.FlyWheel;
 import frc.robot.util.TunableNumber;
 
 public class RobotContainer {
   private final CommandXboxController controller = new CommandXboxController(0);
-  private final SparkMaxFlyWheel flyWheel = new SparkMaxFlyWheel();
-  private final FalconIntake intake = new FalconIntake();
+  private final FlyWheel flyWheel = new FlyWheel();
+  private final Intake intake = new Intake();
   private TunableNumber intakeSpeed = new TunableNumber("Intake Speed", 0);
   private TunableNumber flyWheelSpeed = new TunableNumber("FlyWheel Speed", 0);
 
@@ -26,9 +27,11 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    controller.a().whileTrue(new SpinSparkMaxFast(flyWheel));
-    controller.b().whileTrue(new Intake(intake, intakeSpeed));
-    controller.x().whileTrue(new MultiSub(intake, flyWheel, intakeSpeed, flyWheelSpeed));
+    controller.a().whileTrue(new SpinFlyWheelFast(flyWheel));
+    controller.b().whileTrue(new SpinIntake(intake, intakeSpeed));
+    controller.leftBumper()
+        .whileTrue(new ParallelCommandGroup(new SpinFlyWheelFast(flyWheel), new SpinIntake(intake, intakeSpeed)));
+    controller.x().whileTrue(new MultipleSubsystem(intake, flyWheel, intakeSpeed, flyWheelSpeed));
   }
 
   public Command getAutonomousCommand() {

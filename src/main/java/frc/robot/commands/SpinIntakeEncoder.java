@@ -5,25 +5,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.FalconIntake;
-import frc.robot.subsystems.SparkMaxFlyWheel;
+import frc.robot.subsystems.IntakeVelocityPID;
 import frc.robot.util.TunableNumber;
 
-public class MultiSub extends Command {
-  FalconIntake m_falconIntake;
-  SparkMaxFlyWheel m_flyWheel;
-  double m_falconIntakeSpeed;
-  double m_flyWheelSpeed;
+public class SpinIntakeEncoder extends Command {
+  IntakeVelocityPID m_falconIntake;
+  double m_speed;
 
-  /** Creates a new MultiSub. */
-  public MultiSub(FalconIntake falconIntake, SparkMaxFlyWheel flyWheel, TunableNumber falconIntakeSpeed,
-      TunableNumber flyWheelSpeed) {
+  /** Creates a new Intake. */
+  public SpinIntakeEncoder(IntakeVelocityPID falconIntake, double speed) {
     m_falconIntake = falconIntake;
-    m_flyWheel = flyWheel;
-    m_falconIntakeSpeed = falconIntakeSpeed.get();
-    m_flyWheelSpeed = flyWheelSpeed.get();
-    addRequirements(m_falconIntake, m_flyWheel);
+    m_speed = speed;
+    addRequirements(m_falconIntake);
     // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  public SpinIntakeEncoder(IntakeVelocityPID falconIntake, TunableNumber speed) {
+    m_falconIntake = falconIntake;
+    m_speed = speed.get();
+    addRequirements(m_falconIntake);
   }
 
   // Called when the command is initially scheduled.
@@ -34,15 +34,14 @@ public class MultiSub extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_falconIntake.setIntakeSpeed(m_falconIntakeSpeed);
-    m_flyWheel.setFlyWheelSpeed(m_flyWheelSpeed);
+    m_falconIntake.setIntakeSpeed(m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_falconIntake.setIntakeSpeed(0);
-    m_flyWheel.setFlyWheelSpeed(0);
+    m_speed = 0;
+    m_falconIntake.setIntakeSpeed(m_speed);
   }
 
   // Returns true when the command should end.
