@@ -11,6 +11,7 @@ import frc.robot.util.TunableNumber;
 public class Intake extends Command {
   FalconIntake m_falconIntake;
   double m_speed;
+
   /** Creates a new Intake. */
   public Intake(FalconIntake falconIntake, double speed) {
     m_falconIntake = falconIntake;
@@ -19,7 +20,7 @@ public class Intake extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  public Intake(FalconIntake falconIntake, TunableNumber speed){
+  public Intake(FalconIntake falconIntake, TunableNumber speed) {
     m_falconIntake = falconIntake;
     m_speed = speed.get();
     addRequirements(m_falconIntake);
@@ -27,7 +28,8 @@ public class Intake extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

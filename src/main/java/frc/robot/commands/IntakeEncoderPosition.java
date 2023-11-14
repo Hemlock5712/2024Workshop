@@ -12,6 +12,7 @@ public class IntakeEncoderPosition extends Command {
   /** Creates a new IntakeEncoderPosition. */
   FalconEncoderPosition m_falconIntake;
   double m_position;
+
   /** Creates a new Intake. */
   public IntakeEncoderPosition(FalconEncoderPosition falconIntake, double position) {
     m_falconIntake = falconIntake;
@@ -20,7 +21,7 @@ public class IntakeEncoderPosition extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  public IntakeEncoderPosition(FalconEncoderPosition falconIntake, TunableNumber speed){
+  public IntakeEncoderPosition(FalconEncoderPosition falconIntake, TunableNumber speed) {
     m_falconIntake = falconIntake;
     m_position = speed.get();
     addRequirements(m_falconIntake);
@@ -28,7 +29,8 @@ public class IntakeEncoderPosition extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

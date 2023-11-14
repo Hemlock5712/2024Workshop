@@ -11,6 +11,7 @@ import frc.robot.util.TunableNumber;
 public class SpinSparkMaxEncoder extends Command {
   SparkMaxEncoder m_sparkMaxEncoder;
   double m_targetSpeed = 0;
+
   /** Creates a new SpinSparkMaxEncoder. */
   public SpinSparkMaxEncoder(SparkMaxEncoder sparkMaxEncoder, TunableNumber targetSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,7 +21,8 @@ public class SpinSparkMaxEncoder extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

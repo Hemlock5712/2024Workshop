@@ -11,12 +11,12 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.MultiSub;
 import frc.robot.commands.SpinSparkMaxFast;
 import frc.robot.subsystems.FalconIntake;
-import frc.robot.subsystems.FlyWheel;
+import frc.robot.subsystems.SparkMaxFlyWheel;
 import frc.robot.util.TunableNumber;
 
 public class RobotContainer {
   private final CommandXboxController controller = new CommandXboxController(0);
-  private final FlyWheel flyWheel = new FlyWheel();
+  private final SparkMaxFlyWheel flyWheel = new SparkMaxFlyWheel();
   private final FalconIntake intake = new FalconIntake();
   private TunableNumber intakeSpeed = new TunableNumber("Intake Speed", 0);
   private TunableNumber flyWheelSpeed = new TunableNumber("FlyWheel Speed", 0);

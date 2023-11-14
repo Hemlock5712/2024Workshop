@@ -5,21 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.FalconIntakeEncoder;
+import frc.robot.subsystems.FalconEncoderVelocity;
 import frc.robot.util.TunableNumber;
 
 public class IntakeEncoder extends Command {
-  FalconIntakeEncoder m_falconIntake;
+  FalconEncoderVelocity m_falconIntake;
   double m_speed;
+
   /** Creates a new Intake. */
-  public IntakeEncoder(FalconIntakeEncoder falconIntake, double speed) {
+  public IntakeEncoder(FalconEncoderVelocity falconIntake, double speed) {
     m_falconIntake = falconIntake;
     m_speed = speed;
     addRequirements(m_falconIntake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  public IntakeEncoder(FalconIntakeEncoder falconIntake, TunableNumber speed){
+  public IntakeEncoder(FalconEncoderVelocity falconIntake, TunableNumber speed) {
     m_falconIntake = falconIntake;
     m_speed = speed.get();
     addRequirements(m_falconIntake);
@@ -27,7 +28,8 @@ public class IntakeEncoder extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
