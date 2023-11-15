@@ -12,13 +12,13 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FalconPosition extends SubsystemBase {
-  private TalonFX intake = new TalonFX(0);
+  private TalonFX flyWheel = new TalonFX(0);
   /* Be able to switch which control request to use based on a button press */
   /* Start at velocity 0, enable FOC, no feed forward, use slot 0 */
   private double targetPosition = 0;
   private final PositionVoltage m_positionVoltage = new PositionVoltage(targetPosition, 0, false, 0, 0, false);
 
-  /** Creates a new intakeEncoder. */
+  /** Creates a new flyWheelEncoder. */
   public FalconPosition() {
     TalonFXConfiguration configs = new TalonFXConfiguration();
 
@@ -38,7 +38,7 @@ public class FalconPosition extends SubsystemBase {
     /* Retry config apply up to 5 times, report if failure */
     StatusCode status = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; ++i) {
-      status = intake.getConfigurator().apply(configs);
+      status = flyWheel.getConfigurator().apply(configs);
       if (status.isOK())
         break;
     }
@@ -56,12 +56,12 @@ public class FalconPosition extends SubsystemBase {
   }
 
   public double getPostion() {
-    return intake.getPosition().getValueAsDouble();
+    return flyWheel.getPosition().getValueAsDouble();
   }
 
   @Override
   public void periodic() {
-    m_positionVoltage.withPosition(targetPosition);
+    flyWheel.setControl(m_positionVoltage.withPosition(targetPosition));
     // This method will be called once per scheduler run
   }
 }

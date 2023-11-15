@@ -56,8 +56,6 @@ public class FlyWheelVelocityPID extends SubsystemBase {
     if (!status.isOK()) {
       System.out.println("Could not apply configs, error code: " + status.toString());
     }
-
-    flyWheel.setControl(m_voltageVelocity.withVelocity(targetSpeed).withFeedForward(kFF.get()));
   }
 
   public void setFlyWheelSpeed(double speed) {
@@ -105,6 +103,5 @@ public class FlyWheelVelocityPID extends SubsystemBase {
     // This method will be called once per scheduler run
     setPID();
     flyWheel.setControl(m_voltageVelocity.withVelocity(targetSpeed));
-
   }
 }

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.SpinFlyWheel;
-import frc.robot.commands.SpinFlyWheelEncoder;
+import frc.robot.commands.SpinFlyWheelPID;
 import frc.robot.commands.MultipleSubsystem;
 import frc.robot.commands.SpinIntakeFast;
 import frc.robot.commands.SpinIntakePID;
@@ -27,8 +27,6 @@ public class RobotContainer {
   private final FlyWheelVelocityPID flyWheel = new FlyWheelVelocityPID();
   private final IntakeVelocityPID intakePID = new IntakeVelocityPID();
 
-  TunableNumber targetSpeed = new TunableNumber("Flywheel Target Speed", 0);
-
   public RobotContainer() {
     configureBindings();
   }
@@ -40,7 +38,7 @@ public class RobotContainer {
     // SpinIntakeFast(intake), new SpinFlyWheel(flyWheel, 1)));
     // controller.x().whileTrue(new MultipleSubsystem(intake, flyWheel, 0.5, -0.1));
     controller.b().whileTrue(new SpinIntakePID(intakePID));
-    controller.a().whileTrue(new SpinFlyWheelEncoder(flyWheel, targetSpeed));
+    controller.a().whileTrue(new SpinFlyWheelPID(flyWheel));
   }
 
   public Command getAutonomousCommand() {
