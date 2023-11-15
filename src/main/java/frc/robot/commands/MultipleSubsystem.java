@@ -14,7 +14,6 @@ public class MultipleSubsystem extends Command {
   double m_intakeSpeed;
   double m_flyWheelSpeed;
 
-
   /** Creates a new MultiSub. */
   public MultipleSubsystem(Intake intake, FlyWheel flyWheel, double intakeSpeed,
       double flyWheelSpeed) {

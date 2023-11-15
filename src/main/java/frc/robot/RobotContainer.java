@@ -22,11 +22,10 @@ import frc.robot.util.TunableNumber;
 
 public class RobotContainer {
   private final CommandXboxController controller = new CommandXboxController(0);
-  //private final Intake intake = new Intake();
+  // private final Intake intake = new Intake();
   // private final FlyWheel flyWheel = new FlyWheel();
   private final FlyWheelVelocityPID flyWheel = new FlyWheelVelocityPID();
   private final IntakeVelocityPID intakePID = new IntakeVelocityPID();
-
 
   TunableNumber targetSpeed = new TunableNumber("Flywheel Target Speed", 0);
 
@@ -35,10 +34,11 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    //controller.a().whileTrue(new SpinIntakeFast(intake));
-    //controller.b().whileTrue(new SpinIntakeSlow(intake));
-    //controller.leftBumper().whileTrue(new ParallelCommandGroup(new SpinIntakeFast(intake), new SpinFlyWheel(flyWheel, 1)));
-    //controller.x().whileTrue(new MultipleSubsystem(intake, flyWheel, 0.5, -0.1));
+    // controller.a().whileTrue(new SpinIntakeFast(intake));
+    // controller.b().whileTrue(new SpinIntakeSlow(intake));
+    // controller.leftBumper().whileTrue(new ParallelCommandGroup(new
+    // SpinIntakeFast(intake), new SpinFlyWheel(flyWheel, 1)));
+    // controller.x().whileTrue(new MultipleSubsystem(intake, flyWheel, 0.5, -0.1));
     controller.b().whileTrue(new SpinIntakePID(intakePID));
     controller.a().whileTrue(new SpinFlyWheelEncoder(flyWheel, targetSpeed));
   }
