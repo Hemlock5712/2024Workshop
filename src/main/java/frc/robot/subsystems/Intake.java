@@ -4,16 +4,17 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
-  private TalonFX falconIntake = new TalonFX(0);
+  private CANSparkMax motor = new CANSparkMax(18, MotorType.kBrushless);
   private double targetSpeed = 0;
 
-  /** Creates a new FalconIntake. */
   public Intake() {
+    motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
   }
 
   public void setIntakeSpeed(double speed) {
@@ -26,7 +27,7 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    falconIntake.set(targetSpeed);
     // This method will be called once per scheduler run
+    motor.set(targetSpeed);
   }
 }

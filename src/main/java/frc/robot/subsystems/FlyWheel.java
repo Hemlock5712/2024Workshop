@@ -4,17 +4,16 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FlyWheel extends SubsystemBase {
-  private CANSparkMax motor = new CANSparkMax(8, MotorType.kBrushless);
+  private TalonFX m_flywheel = new TalonFX(20);
   private double targetSpeed = 0;
 
+  /** Creates a new FlyWheel. */
   public FlyWheel() {
-    motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
   }
 
   public void setFlyWheelSpeed(double speed) {
@@ -27,7 +26,7 @@ public class FlyWheel extends SubsystemBase {
 
   @Override
   public void periodic() {
+    m_flywheel.set(targetSpeed);
     // This method will be called once per scheduler run
-    motor.set(targetSpeed);
   }
 }

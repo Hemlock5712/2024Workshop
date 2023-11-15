@@ -5,17 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.FlyWheelVelocityPID;
-import frc.robot.util.TunableNumber;
+import frc.robot.subsystems.Intake;
 
-public class SpinFlyWheelPID extends Command {
-  FlyWheelVelocityPID m_sparkMaxEncoder;
-  TunableNumber m_targetSpeed = new TunableNumber("Fly Wheel Target Speed", 0);
+public class SpinIntakeSlow extends Command {
+  Intake m_intake;
 
-  /** Creates a new SpinSparkMaxEncoder. */
-  public SpinFlyWheelPID(FlyWheelVelocityPID sparkMaxEncoder) {
+  /** Creates a new SpinMotor. */
+  public SpinIntakeSlow(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_sparkMaxEncoder = sparkMaxEncoder;
+    m_intake = intake;
+    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
@@ -26,13 +25,13 @@ public class SpinFlyWheelPID extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_sparkMaxEncoder.setTargetSpeed(m_targetSpeed.get());
+    m_intake.setIntakeSpeed(0.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_sparkMaxEncoder.setTargetSpeed(0);
+    m_intake.setIntakeSpeed(0);
   }
 
   // Returns true when the command should end.

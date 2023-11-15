@@ -8,22 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeVelocityPID;
 import frc.robot.util.TunableNumber;
 
-public class SpinIntakeEncoder extends Command {
-  IntakeVelocityPID m_falconIntake;
-  double m_speed;
+public class SpinIntakePID extends Command {
+  IntakeVelocityPID m_sparkMaxEncoder;
+  TunableNumber m_targetSpeed = new TunableNumber("Intake Wheel Target Speed", 0);
 
-  /** Creates a new Intake. */
-  public SpinIntakeEncoder(IntakeVelocityPID falconIntake, double speed) {
-    m_falconIntake = falconIntake;
-    m_speed = speed;
-    addRequirements(m_falconIntake);
+  /** Creates a new SpinSparkMaxEncoder. */
+  public SpinIntakePID(IntakeVelocityPID sparkMaxEncoder) {
     // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  public SpinIntakeEncoder(IntakeVelocityPID falconIntake, TunableNumber speed) {
-    m_falconIntake = falconIntake;
-    m_speed = speed.get();
-    addRequirements(m_falconIntake);
+    m_sparkMaxEncoder = sparkMaxEncoder;
   }
 
   // Called when the command is initially scheduled.
@@ -34,14 +26,13 @@ public class SpinIntakeEncoder extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_falconIntake.setIntakeSpeed(m_speed);
+    m_sparkMaxEncoder.setTargetSpeed(m_targetSpeed.get());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_speed = 0;
-    m_falconIntake.setIntakeSpeed(m_speed);
+    m_sparkMaxEncoder.setTargetSpeed(0);
   }
 
   // Returns true when the command should end.

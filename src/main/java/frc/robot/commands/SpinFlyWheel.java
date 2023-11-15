@@ -7,14 +7,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.FlyWheel;
 
-public class SpinFlyWheelFast extends Command {
+public class SpinFlyWheel extends Command {
   FlyWheel m_flyWheel;
+  double m_speed;
 
-  /** Creates a new SpinMotor. */
-  public SpinFlyWheelFast(FlyWheel flyWheel) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  /** Creates a new FlyWheel. */
+  public SpinFlyWheel(FlyWheel flyWheel, double speed) {
     m_flyWheel = flyWheel;
+    m_speed = speed;
     addRequirements(m_flyWheel);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +27,14 @@ public class SpinFlyWheelFast extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_flyWheel.setFlyWheelSpeed(0.5);
+    m_flyWheel.setFlyWheelSpeed(m_speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_flyWheel.setFlyWheelSpeed(0);
+    m_speed = 0;
+    m_flyWheel.setFlyWheelSpeed(m_speed);
   }
 
   // Returns true when the command should end.

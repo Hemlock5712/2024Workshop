@@ -10,21 +10,21 @@ import frc.robot.util.TunableNumber;
 
 public class IntakeEncoderPosition extends Command {
   /** Creates a new IntakeEncoderPosition. */
-  FalconPosition m_falconIntake;
+  FalconPosition m_intake;
   double m_position;
 
   /** Creates a new Intake. */
-  public IntakeEncoderPosition(FalconPosition falconIntake, double position) {
-    m_falconIntake = falconIntake;
+  public IntakeEncoderPosition(FalconPosition intake, double position) {
+    m_intake = intake;
     m_position = position;
-    addRequirements(m_falconIntake);
+    addRequirements(m_intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  public IntakeEncoderPosition(FalconPosition falconIntake, TunableNumber speed) {
-    m_falconIntake = falconIntake;
+  public IntakeEncoderPosition(FalconPosition intake, TunableNumber speed) {
+    m_intake = intake;
     m_position = speed.get();
-    addRequirements(m_falconIntake);
+    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
@@ -35,7 +35,7 @@ public class IntakeEncoderPosition extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_falconIntake.setPosition(m_position);
+    m_intake.setPosition(m_position);
   }
 
   // Called once the command ends or is interrupted.

@@ -4,58 +4,97 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.util.TunableNumber;
 
 public class FlyWheelVelocityPID extends SubsystemBase {
-  private CANSparkMax motor = new CANSparkMax(8, MotorType.kBrushless);
-  SparkMaxPIDController pidController;
+  private TalonFX flyWheel = new TalonFX(20);
+  /* Be able to switch which control request to use based on a button press */
+  /* Start at velocity 0, enable FOC, no feed forward, use slot 0 */
   private double targetSpeed = 0;
+  private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(targetSpeed, 0, false, 0, 0, false);
 
   TunableNumber kP = new TunableNumber("FlyWheel P Gain", 0.0);
   TunableNumber kI = new TunableNumber("FlyWheel I Gain", 0.0);
   TunableNumber kD = new TunableNumber("FlyWheel D Gain", 0.0);
+  TunableNumber kFF = new TunableNumber("FlyWheel FF Gain", 0.0);
+  TalonFXConfiguration configs = new TalonFXConfiguration();
 
-  /** Creates a new SparkMaxClosedLoop. */
+  /** Creates a new flyWheelEncoder. */
   public FlyWheelVelocityPID() {
-    pidController = motor.getPIDController();
-    pidController.setP(kP.get(), 0);
-    pidController.setI(kI.get(), 0);
-    pidController.setD(kD.get(), 0);
+    
+
+    /*
+     * Voltage-based velocity requires a feed forward to account for the back-emf of
+     * the motor
+     */
+    configs.Slot0.kP = 0.0; // An error of 1 rotation per second results in 2V output
+    configs.Slot0.kI = 0.0; // An error of 1 rotation per second increases output by 0.5V every second
+    configs.Slot0.kD = 0.0; // A change of 1 rotation per second squared results in 0.01 volts output
+
+    configs.Slot0.kV = 0.0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12
+                            // volts / Rotation per second
+    // Peak output of 8 volts
+    configs.Voltage.PeakForwardVoltage = 8;
+    configs.Voltage.PeakReverseVoltage = -8;
+
+    /* Retry config apply up to 5 times, report if failure */
+    StatusCode status = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      status = flyWheel.getConfigurator().apply(configs);
+      if (status.isOK())
+        break;
+    }
+    if (!status.isOK()) {
+      System.out.println("Could not apply configs, error code: " + status.toString());
+    }
   }
 
-  public double getTargetSpeed() {
+  public void setFlyWheelSpeed(double speed) {
+    targetSpeed = speed;
+  }
+
+  public double getTargetFlyWheelSpeed() {
     return targetSpeed;
   }
 
-  public void setTargetSpeed(double speed) {
-    targetSpeed = speed;
+  public double getFlyWheelSpeed() {
+    return flyWheel.getVelocity().getValueAsDouble();
   }
 
   private void setPID() {
     if (Constants.tuningMode) {
       if (kP.hasChanged()) {
-        pidController.setP(kP.get());
+        configs.Slot0.kP = kP.get();
+        flyWheel.getConfigurator().apply(configs);
       }
       if (kI.hasChanged()) {
-        pidController.setI(kI.get());
+        configs.Slot0.kI = kI.get();
+        flyWheel.getConfigurator().apply(configs);
       }
-      if (kI.hasChanged()) {
-        pidController.setD(kD.get());
+      if (kD.hasChanged()) {
+        configs.Slot0.kD = kP.get();
+        flyWheel.getConfigurator().apply(configs);
       }
+      // if (kFF.hasChanged()) {
+      //   m_voltageVelocity.withFeedForward(kFF.get());
+      // }
     }
   }
 
   @Override
   public void periodic() {
     setPID();
-    pidController.setReference(targetSpeed, ControlType.kVelocity, 0);
+    m_voltageVelocity.withVelocity(targetSpeed).withFeedForward(kFF.get());
+    flyWheel.getVelocity().refresh();
+    SmartDashboard.putNumber("Flywheel Speed", flyWheel.getVelocity().getValue());
     // This method will be called once per scheduler run
   }
 }

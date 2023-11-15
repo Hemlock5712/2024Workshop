@@ -5,23 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.FlyWheel;
+import frc.robot.subsystems.Intake;
 
 public class MultipleSubsystem extends Command {
-  Intake m_falconIntake;
+  Intake m_intake;
   FlyWheel m_flyWheel;
-  double m_falconIntakeSpeed;
+  double m_intakeSpeed;
   double m_flyWheelSpeed;
 
+
   /** Creates a new MultiSub. */
-  public MultipleSubsystem(Intake falconIntake, FlyWheel flyWheel, double falconIntakeSpeed,
+  public MultipleSubsystem(Intake intake, FlyWheel flyWheel, double intakeSpeed,
       double flyWheelSpeed) {
-    m_falconIntake = falconIntake;
+    m_intake = intake;
     m_flyWheel = flyWheel;
-    m_falconIntakeSpeed = falconIntakeSpeed;
+    m_intakeSpeed = intakeSpeed;
     m_flyWheelSpeed = flyWheelSpeed;
-    addRequirements(m_falconIntake, m_flyWheel);
+    addRequirements(m_intake, m_flyWheel);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -33,15 +34,15 @@ public class MultipleSubsystem extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_falconIntake.setIntakeSpeed(m_falconIntakeSpeed);
     m_flyWheel.setFlyWheelSpeed(m_flyWheelSpeed);
+    m_intake.setIntakeSpeed(m_intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_falconIntake.setIntakeSpeed(0);
     m_flyWheel.setFlyWheelSpeed(0);
+    m_intake.setIntakeSpeed(0);
   }
 
   // Returns true when the command should end.
