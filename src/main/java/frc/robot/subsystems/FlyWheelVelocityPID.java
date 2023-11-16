@@ -10,7 +10,6 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.util.TunableNumber;
 
 public class FlyWheelVelocityPID extends SubsystemBase {
@@ -71,30 +70,28 @@ public class FlyWheelVelocityPID extends SubsystemBase {
   }
 
   private void setPID() {
-    if (Constants.tuningMode) {
-      if (kP.hasChanged()) {
-        configs.Slot0.kP = kP.get();
-        flyWheel.getConfigurator().apply(configs);
-      }
-      if (kI.hasChanged()) {
-        configs.Slot0.kI = kI.get();
-        flyWheel.getConfigurator().apply(configs);
-      }
-      if (kD.hasChanged()) {
-        configs.Slot0.kD = kD.get();
-        flyWheel.getConfigurator().apply(configs);
-      }
-      if (kS.hasChanged()) {
-        configs.Slot0.kS = kS.get();
-        flyWheel.getConfigurator().apply(configs);
-      }
-      if (kV.hasChanged()) {
-        configs.Slot0.kV = kV.get();
-        flyWheel.getConfigurator().apply(configs);
-      }
-      if (kFF.hasChanged()) {
-        flyWheel.setControl(m_voltageVelocity.withFeedForward(kFF.get()));
-      }
+    if (kP.hasChanged()) {
+      configs.Slot0.kP = kP.get();
+      flyWheel.getConfigurator().apply(configs);
+    }
+    if (kI.hasChanged()) {
+      configs.Slot0.kI = kI.get();
+      flyWheel.getConfigurator().apply(configs);
+    }
+    if (kD.hasChanged()) {
+      configs.Slot0.kD = kD.get();
+      flyWheel.getConfigurator().apply(configs);
+    }
+    if (kS.hasChanged()) {
+      configs.Slot0.kS = kS.get();
+      flyWheel.getConfigurator().apply(configs);
+    }
+    if (kV.hasChanged()) {
+      configs.Slot0.kV = kV.get();
+      flyWheel.getConfigurator().apply(configs);
+    }
+    if (kFF.hasChanged()) {
+      flyWheel.setControl(m_voltageVelocity.withFeedForward(kFF.get()));
     }
   }
 

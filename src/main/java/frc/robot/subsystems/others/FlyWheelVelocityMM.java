@@ -11,7 +11,6 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.util.TunableNumber;
 
 public class FlyWheelVelocityMM extends SubsystemBase {
@@ -27,7 +26,7 @@ public class FlyWheelVelocityMM extends SubsystemBase {
   double kS = 0.0;
   double kV = 0.0;
 
-  TunableNumber mmV = new TunableNumber("FlyWheel mmV Gain", 0.0); 
+  TunableNumber mmV = new TunableNumber("FlyWheel mmV Gain", 0.0);
   TunableNumber mmA = new TunableNumber("FlyWheel mmA Gain", 0.0);
   TunableNumber mmJ = new TunableNumber("FlyWheel mmJ Gain", 0.0);
   TunableNumber kFF = new TunableNumber("FlyWheel FF Gain", 0.0);
@@ -47,8 +46,8 @@ public class FlyWheelVelocityMM extends SubsystemBase {
 
     configs.Slot0.kS = kS; // Out put to overcome static friction
     configs.Slot0.kV = kV; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12
-                            // volts / Rotation per second
-    
+                           // volts / Rotation per second
+
     mm_configs = configs.MotionMagic;
     mm_configs.MotionMagicCruiseVelocity = 80;
     mm_configs.MotionMagicAcceleration = 160;
@@ -81,22 +80,20 @@ public class FlyWheelVelocityMM extends SubsystemBase {
   }
 
   private void setPID() {
-    if (Constants.tuningMode) {
-      if (mmV.hasChanged()) {
-        mm_configs.MotionMagicCruiseVelocity = mmV.get();
-        flyWheel.getConfigurator().apply(mm_configs);
-      }
-      if (mmA.hasChanged()) {
-        mm_configs.MotionMagicAcceleration = mmA.get();
-        flyWheel.getConfigurator().apply(mm_configs);
-      }
-      if (mmJ.hasChanged()) {
-        mm_configs.MotionMagicJerk = mmJ.get();
-        flyWheel.getConfigurator().apply(mm_configs);
-      }
-      if (kFF.hasChanged()) {
-        flyWheel.setControl(m_voltageVelocity.withFeedForward(kFF.get()));
-      }
+    if (mmV.hasChanged()) {
+      mm_configs.MotionMagicCruiseVelocity = mmV.get();
+      flyWheel.getConfigurator().apply(mm_configs);
+    }
+    if (mmA.hasChanged()) {
+      mm_configs.MotionMagicAcceleration = mmA.get();
+      flyWheel.getConfigurator().apply(mm_configs);
+    }
+    if (mmJ.hasChanged()) {
+      mm_configs.MotionMagicJerk = mmJ.get();
+      flyWheel.getConfigurator().apply(mm_configs);
+    }
+    if (kFF.hasChanged()) {
+      flyWheel.setControl(m_voltageVelocity.withFeedForward(kFF.get()));
     }
   }
 

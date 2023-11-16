@@ -1,7 +1,6 @@
 package frc.robot.util;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
 
 /**
  * Class for a tunable number. Gets value from dashboard in tuning mode, returns
@@ -14,6 +13,7 @@ public class TunableNumber {
   private String key;
   private double defaultValue;
   private double lastHasChangedValue = defaultValue;
+  private boolean tuningMode = true;
 
   /**
    * Create a new TunableNumber
@@ -51,7 +51,7 @@ public class TunableNumber {
    */
   public void setDefault(double defaultValue) {
     this.defaultValue = defaultValue;
-    if (Constants.tuningMode) {
+    if (tuningMode) {
       // This makes sure the data is on NetworkTables but will not change it
       SmartDashboard.putNumber(key,
           SmartDashboard.getNumber(key, defaultValue));
@@ -64,7 +64,7 @@ public class TunableNumber {
    * @return The current value
    */
   public double get() {
-    return Constants.tuningMode ? SmartDashboard.getNumber(key, defaultValue)
+    return tuningMode ? SmartDashboard.getNumber(key, defaultValue)
         : defaultValue;
   }
 

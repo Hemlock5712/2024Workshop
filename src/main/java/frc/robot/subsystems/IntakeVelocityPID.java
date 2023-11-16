@@ -11,7 +11,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.util.TunableNumber;
 
 public class IntakeVelocityPID extends SubsystemBase {
@@ -43,19 +42,17 @@ public class IntakeVelocityPID extends SubsystemBase {
   }
 
   private void setPID() {
-    if (Constants.tuningMode) {
-      if (kP.hasChanged()) {
-        pidController.setP(kP.get());
-      }
-      if (kI.hasChanged()) {
-        pidController.setI(kI.get());
-      }
-      if (kD.hasChanged()) {
-        pidController.setD(kD.get());
-      }
-      if (kFF.hasChanged()) {
-        pidController.setFF(kFF.get());
-      }
+    if (kP.hasChanged()) {
+      pidController.setP(kP.get());
+    }
+    if (kI.hasChanged()) {
+      pidController.setI(kI.get());
+    }
+    if (kD.hasChanged()) {
+      pidController.setD(kD.get());
+    }
+    if (kFF.hasChanged()) {
+      pidController.setFF(kFF.get());
     }
   }
 
