@@ -8,7 +8,9 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.TunableNumber;
 
@@ -45,6 +47,8 @@ public class FlyWheelVelocityPID extends SubsystemBase {
     configs.Voltage.PeakForwardVoltage = 8;
     configs.Voltage.PeakReverseVoltage = -8;
 
+    configs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
     /* Retry config apply up to 5 times, report if failure */
     StatusCode status = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; ++i) {
@@ -57,11 +61,11 @@ public class FlyWheelVelocityPID extends SubsystemBase {
     }
   }
 
-  public void setFlyWheelSpeed(double speed) {
+  public void setTargetSpeed(double speed) {
     targetSpeed = speed;
   }
 
-  public double getTargetFlyWheelSpeed() {
+  public double getTargetSpeed() {
     return targetSpeed;
   }
 
@@ -100,5 +104,7 @@ public class FlyWheelVelocityPID extends SubsystemBase {
     // This method will be called once per scheduler run
     setPID();
     flyWheel.setControl(m_voltageVelocity.withVelocity(targetSpeed));
+    SmartDashboard.putNumber("FlyWheel Speed", flyWheel.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("Test", targetSpeed);
   }
 }

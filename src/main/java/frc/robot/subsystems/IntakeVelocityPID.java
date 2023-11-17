@@ -18,10 +18,10 @@ public class IntakeVelocityPID extends SubsystemBase {
   SparkMaxPIDController pidController;
   private double targetSpeed = 0;
 
-  TunableNumber kP = new TunableNumber("Intake P Gain", 0.0);
+  TunableNumber kP = new TunableNumber("Intake P Gain", 0.0); // .000008
   TunableNumber kI = new TunableNumber("Intake I Gain", 0.0);
   TunableNumber kD = new TunableNumber("Intake D Gain", 0.0);
-  TunableNumber kFF = new TunableNumber("Intake FF Gain", 0.0);
+  TunableNumber kFF = new TunableNumber("Intake FF Gain", 0.0); //.000107
 
   /** Creates a new SparkMaxClosedLoop. */
   public IntakeVelocityPID() {

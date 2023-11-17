@@ -13,16 +13,8 @@ public class SpinFlyWheelPID extends Command {
   TunableNumber m_targetSpeed = new TunableNumber("FlyWheel Target Speed", 0);
 
   /** Creates a new FlyWheel. */
-  public SpinFlyWheelPID(FlyWheelVelocityPID flyWheel, double speed) {
-    m_flyWheel = flyWheel;
-    m_targetSpeed.setDefault(speed);
-    addRequirements(m_flyWheel);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
   public SpinFlyWheelPID(FlyWheelVelocityPID flyWheel) {
     m_flyWheel = flyWheel;
-    m_targetSpeed.setDefault(0);
   }
 
   // Called when the command is initially scheduled.
@@ -33,14 +25,13 @@ public class SpinFlyWheelPID extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_flyWheel.setFlyWheelSpeed(m_targetSpeed.get());
+    m_flyWheel.setTargetSpeed(m_targetSpeed.get());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_targetSpeed.setDefault(0);
-    m_flyWheel.setFlyWheelSpeed(m_targetSpeed.get());
+    m_flyWheel.setTargetSpeed(0);
   }
 
   // Returns true when the command should end.
