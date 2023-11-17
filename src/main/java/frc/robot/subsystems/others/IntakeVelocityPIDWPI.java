@@ -11,7 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class SparkMaxPID extends SubsystemBase {
+public class IntakeVelocityPIDWPI extends SubsystemBase {
   private CANSparkMax motor = new CANSparkMax(8, MotorType.kBrushless);
   private CANcoder encoder = new CANcoder(1);
   private double kP = 0.0;
@@ -22,7 +22,7 @@ public class SparkMaxPID extends SubsystemBase {
 
   /** Creates a new SparkMaxEncoder. */
 
-  public SparkMaxPID() {
+  public IntakeVelocityPIDWPI() {
     motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
   }
 

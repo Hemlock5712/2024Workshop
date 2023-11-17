@@ -11,7 +11,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class FalconPosition extends SubsystemBase {
+public class FlyWheelPositionPID extends SubsystemBase {
   private TalonFX flyWheel = new TalonFX(0);
   /* Be able to switch which control request to use based on a button press */
   /* Start at velocity 0, enable FOC, no feed forward, use slot 0 */
@@ -19,7 +19,7 @@ public class FalconPosition extends SubsystemBase {
   private final PositionVoltage m_positionVoltage = new PositionVoltage(targetPosition, 0, false, 0, 0, false);
 
   /** Creates a new flyWheelEncoder. */
-  public FalconPosition() {
+  public FlyWheelPositionPID() {
     TalonFXConfiguration configs = new TalonFXConfiguration();
 
     /*
