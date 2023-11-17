@@ -21,7 +21,7 @@ public class IntakePositionPID extends SubsystemBase {
   TunableNumber kP = new TunableNumber("Intake P Gain", 0.0); // .000008
   TunableNumber kI = new TunableNumber("Intake I Gain", 0.0);
   TunableNumber kD = new TunableNumber("Intake D Gain", 0.0);
-  TunableNumber kFF = new TunableNumber("Intake FF Gain", 0.0); //.000107
+  TunableNumber kFF = new TunableNumber("Intake FF Gain", 0.0); // .000107
 
   /** Creates a new SparkMaxClosedLoop. */
   public IntakePositionPID() {
@@ -41,7 +41,7 @@ public class IntakePositionPID extends SubsystemBase {
     targetDistance = distance;
   }
 
-  public double getPostion(){
+  public double getPostion() {
     return motor.getEncoder().getPosition();
   }
 
