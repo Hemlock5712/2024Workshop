@@ -25,19 +25,20 @@ public class RobotContainer {
   // private final Intake intake = new Intake();
   // private final FlyWheel flyWheel = new FlyWheel();
   private final FlyWheelVelocityPID flyWheel = new FlyWheelVelocityPID();
-  private final IntakeVelocityPID intakePID = new IntakeVelocityPID();
+  // private final IntakeVelocityPID intakePID = new IntakeVelocityPID();
 
   public RobotContainer() {
     configureBindings();
   }
 
   private void configureBindings() {
+    // controller.a().whileTrue(new SpinFlyWheel(flyWheel, 0.8));
     // controller.a().whileTrue(new SpinIntakeFast(intake));
     // controller.b().whileTrue(new SpinIntakeSlow(intake));
     // controller.leftBumper().whileTrue(new ParallelCommandGroup(new
     // SpinIntakeFast(intake), new SpinFlyWheel(flyWheel, 1)));
     // controller.x().whileTrue(new MultipleSubsystem(intake, flyWheel, 0.5, -0.1));
-    controller.b().whileTrue(new SpinIntakePID(intakePID));
+    // controller.b().whileTrue(new SpinIntakePID(intakePID));
     controller.a().whileTrue(new SpinFlyWheelPID(flyWheel));
   }
 

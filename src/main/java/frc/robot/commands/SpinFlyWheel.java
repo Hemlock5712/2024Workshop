@@ -33,8 +33,7 @@ public class SpinFlyWheel extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_speed = 0;
-    m_flyWheel.setFlyWheelSpeed(m_speed);
+    m_flyWheel.setFlyWheelSpeed(0);
   }
 
   // Returns true when the command should end.

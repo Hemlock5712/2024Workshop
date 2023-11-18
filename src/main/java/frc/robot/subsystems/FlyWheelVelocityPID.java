@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -16,17 +17,10 @@ import frc.robot.util.TunableNumber;
 
 public class FlyWheelVelocityPID extends SubsystemBase {
   private TalonFX flyWheel = new TalonFX(20);
-  /* Be able to switch which control request to use based on a button press */
-  /* Start at velocity 0, enable FOC, no feed forward, use slot 0 */
   private double targetSpeed = 0;
-  private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(targetSpeed, 0, false, 0, 0, false);
-
-  TunableNumber kP = new TunableNumber("FlyWheel P Gain", 0.0);
-  TunableNumber kI = new TunableNumber("FlyWheel I Gain", 0.0);
-  TunableNumber kD = new TunableNumber("FlyWheel D Gain", 0.0);
-  TunableNumber kS = new TunableNumber("FlyWheel kS Gain", 0.0);
-  TunableNumber kV = new TunableNumber("FlyWheel kV Gain", 0.0);
-  TunableNumber kFF = new TunableNumber("FlyWheel FF Gain", 0.0);
+  private double targetFF = 0.0;
+  private TunableNumber kFF = new TunableNumber("FlyWheel FF", 4.8);
+  private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(targetSpeed).withSlot(0);
 
   TalonFXConfiguration configs = new TalonFXConfiguration();
 
@@ -43,9 +37,7 @@ public class FlyWheelVelocityPID extends SubsystemBase {
     configs.Slot0.kS = 0.0; // Out put to overcome static friction
     configs.Slot0.kV = 0.0; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12
                             // volts / Rotation per second
-    // Peak output of 8 volts
-    configs.Voltage.PeakForwardVoltage = 8;
-    configs.Voltage.PeakReverseVoltage = -8;
+
 
     configs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
@@ -59,6 +51,7 @@ public class FlyWheelVelocityPID extends SubsystemBase {
     if (!status.isOK()) {
       System.out.println("Could not apply configs, error code: " + status.toString());
     }
+    flyWheel.setControl(new Follower(19, false));
   }
 
   public void setTargetSpeed(double speed) {
@@ -73,38 +66,18 @@ public class FlyWheelVelocityPID extends SubsystemBase {
     return flyWheel.getVelocity().getValueAsDouble();
   }
 
-  private void setPID() {
-    if (kP.hasChanged()) {
-      configs.Slot0.kP = kP.get();
-      flyWheel.getConfigurator().apply(configs);
-    }
-    if (kI.hasChanged()) {
-      configs.Slot0.kI = kI.get();
-      flyWheel.getConfigurator().apply(configs);
-    }
-    if (kD.hasChanged()) {
-      configs.Slot0.kD = kD.get();
-      flyWheel.getConfigurator().apply(configs);
-    }
-    if (kS.hasChanged()) {
-      configs.Slot0.kS = kS.get();
-      flyWheel.getConfigurator().apply(configs);
-    }
-    if (kV.hasChanged()) {
-      configs.Slot0.kV = kV.get();
-      flyWheel.getConfigurator().apply(configs);
-    }
-    if (kFF.hasChanged()) {
-      flyWheel.setControl(m_voltageVelocity.withFeedForward(kFF.get()));
+  private void setFF(){
+    if(kFF.hasChanged()){
+      targetFF = kFF.get();
     }
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    setPID();
-    flyWheel.setControl(m_voltageVelocity.withVelocity(targetSpeed));
+    setFF();
+    flyWheel.setControl(m_voltageVelocity.withVelocity(targetSpeed).withFeedForward(targetFF));
     SmartDashboard.putNumber("FlyWheel Speed", flyWheel.getVelocity().getValueAsDouble());
-    SmartDashboard.putNumber("Test", targetSpeed);
+    //SmartDashboard.putNumber("Test", );
   }
 }
